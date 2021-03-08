@@ -22,7 +22,11 @@ export default {
         registerDependencyWatchers(root) {
             root.$children.forEach(component => {
                 if (this.componentIsDependency(component)) {
-                    if (component.selectedResourceId !== undefined) {
+                    if (component.selectedResource !== undefined) {
+                        //Searchable BelongsTo field
+                        component.$watch('selectedResource.value', this.dependencyWatcher, {immediate: true});
+                        this.dependencyWatcher(component.selectedResourceId);
+                    } else if (component.selectedResourceId !== undefined) {
                         // BelongsTo field
                         component.$watch('selectedResourceId', this.dependencyWatcher, {immediate: true});
                         this.dependencyWatcher(component.selectedResourceId);
